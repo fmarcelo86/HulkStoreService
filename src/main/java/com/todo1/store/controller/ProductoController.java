@@ -29,10 +29,16 @@ public class ProductoController {
 		return productoRepository.findAll();
 	}
 
-	@GetMapping("/producto/{idProducto}")
+	@GetMapping("/producto/id/{idProducto}")
 	public @ResponseBody Producto getProducto(@PathVariable("idProducto") Long idProducto) {
 		log.info("Request: /getProducto " + idProducto);
 		return productoRepository.findById(idProducto).orElse(new Producto());
+	}
+	
+	@GetMapping("/producto/nombre/{nombreProducto}")
+	public @ResponseBody Iterable<Producto> getProductoByNombre(@PathVariable("nombreProducto") String nombreProducto) {
+		log.info("Request: /getProductoByNombre " + nombreProducto);
+		return productoRepository.findByNombreLike(nombreProducto);
 	}
 
 	@PostMapping("/producto")
@@ -47,7 +53,7 @@ public class ProductoController {
 		return productoRepository.save(producto);
 	}
 
-	@DeleteMapping("/producto/{idProducto}")
+	@DeleteMapping("/producto/id/{idProducto}")
 	public @ResponseBody void deleteProducto(@PathVariable("idProducto") Long idProducto) {
 		log.info("Request: /deleteProducto " + idProducto);
 		productoRepository.deleteById(idProducto);

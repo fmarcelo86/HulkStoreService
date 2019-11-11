@@ -1,20 +1,31 @@
 package com.todo1.store.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Venta {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	@OneToOne
+	@JoinColumn(name = "idCliente", nullable = false, updatable = true)
 	private Cliente cliente;
-	private Usuario usuario;	
-	private Double precioTotal;
+	@OneToOne
+	@JoinColumn(name = "idUsuario", nullable = false, updatable = true)
+	private Usuario usuario;
+	@OneToMany
+	@JoinColumn(name = "idProductoVenta", nullable = false, updatable = true)
+	private List<ProductoVenta> productoVenta;
+	private Double valorTotal;
 	private Date fechaVenta;
 
 	public Long getId() {
@@ -34,12 +45,12 @@ public class Venta {
 	}
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}	
+	public Double getValorTotal() {
+		return valorTotal;
 	}
-	public Double getPrecioTotal() {
-		return precioTotal;
-	}
-	public void setPrecioTotal(Double precioTotal) {
-		this.precioTotal = precioTotal;
+	public void setValorTotal(Double valorTotal) {
+		this.valorTotal = valorTotal;
 	}
 	public Date getFechaVenta() {
 		return fechaVenta;
