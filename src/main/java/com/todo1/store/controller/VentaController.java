@@ -1,5 +1,7 @@
 package com.todo1.store.controller;
 
+import java.util.Date;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.todo1.store.entity.Venta;
+import com.todo1.store.jpa.ClienteRepository;
+import com.todo1.store.jpa.UsuarioRepository;
 import com.todo1.store.jpa.VentaRepository;
 
 @CrossOrigin
@@ -22,6 +26,10 @@ public class VentaController {
 	private static final Logger log = LogManager.getLogger(VentaController.class);
 	@Autowired
 	private VentaRepository ventaRepository;
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 
 	@GetMapping("/venta")
 	public @ResponseBody Iterable<Venta> getVentas() {
@@ -38,6 +46,9 @@ public class VentaController {
 	@PostMapping("/venta")
 	public @ResponseBody Venta setVenta(@RequestBody Venta venta) {
 		log.info("Request: /setVenta " + venta);
+		venta.setCliente(clienteRepository.findById(1L).get());
+		venta.setUsuario(usuarioRepository.findById(1L).get());
+		venta.setFechaVenta(new Date());
 		return ventaRepository.save(venta);
 	}
 

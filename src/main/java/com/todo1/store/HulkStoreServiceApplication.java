@@ -6,11 +6,15 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.todo1.store.entity.Categoria;
+import com.todo1.store.entity.Cliente;
 import com.todo1.store.entity.Marca;
 import com.todo1.store.entity.Producto;
+import com.todo1.store.entity.Usuario;
 import com.todo1.store.jpa.CategoriaRepository;
+import com.todo1.store.jpa.ClienteRepository;
 import com.todo1.store.jpa.MarcaRepository;
 import com.todo1.store.jpa.ProductoRepository;
+import com.todo1.store.jpa.UsuarioRepository;
 
 @SpringBootApplication
 public class HulkStoreServiceApplication implements CommandLineRunner {
@@ -20,6 +24,10 @@ public class HulkStoreServiceApplication implements CommandLineRunner {
 	private CategoriaRepository categoriaRepository;
 	@Autowired
 	private ProductoRepository productoRepository;
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(HulkStoreServiceApplication.class, args);
@@ -50,5 +58,8 @@ public class HulkStoreServiceApplication implements CommandLineRunner {
 		producto.setPrecio(75000D);
 		producto.setStock(68L);
 		productoRepository.save(producto);
+		
+		clienteRepository.save(new Cliente("123456", "Cliente anonimo", "123456", "cliente@todo1.com", "Cr 50 # 49 - 34"));
+		usuarioRepository.save(new Usuario("123456", "Vendedor1", "123456", "vendedor@todo1.com", "Cll 53 # 56 - 76"));
 	}
 }
