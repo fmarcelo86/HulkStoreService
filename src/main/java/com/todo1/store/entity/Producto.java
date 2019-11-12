@@ -13,11 +13,11 @@ public class Producto {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	@OneToOne
-	@JoinColumn(name = "idCategoria", nullable = false, updatable = true)
-	private Categoria categoria;
-	@OneToOne
 	@JoinColumn(name = "idMarca", nullable = false, updatable = true)
 	private Marca marca;
+	@OneToOne
+	@JoinColumn(name = "idCategoria", nullable = false, updatable = true)
+	private Categoria categoria;	
 	private String nombre;
 	private Double precio;
 	private Long stock;
@@ -28,18 +28,18 @@ public class Producto {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Categoria getCategoria() {
-		return categoria;
-	}
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
-	}
 	public Marca getMarca() {
 		return marca;
 	}
 	public void setMarca(Marca marca) {
 		this.marca = marca;
 	}
+	public Categoria getCategoria() {
+		return categoria;
+	}
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}	
 	public String getNombre() {
 		return nombre;
 	}
