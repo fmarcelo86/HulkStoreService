@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.todo1.store.entity.ProductoVenta;
 import com.todo1.store.entity.Venta;
 import com.todo1.store.jpa.ClienteRepository;
+import com.todo1.store.jpa.ProductoRepository;
 import com.todo1.store.jpa.UsuarioRepository;
 import com.todo1.store.jpa.VentaRepository;
 
@@ -30,6 +32,8 @@ public class VentaController {
 	private ClienteRepository clienteRepository;
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	@Autowired
+	private ProductoRepository productoRepository;
 
 	@GetMapping("/venta")
 	public @ResponseBody Iterable<Venta> getVentas() {
@@ -49,7 +53,14 @@ public class VentaController {
 		venta.setCliente(clienteRepository.findById(1L).get());
 		venta.setUsuario(usuarioRepository.findById(1L).get());
 		venta.setFechaVenta(new Date());
-		return ventaRepository.save(venta);
+		venta = ventaRepository.save(venta);
+		for(ProductoVenta prodVenta : venta.getProductoVenta()) {
+			Long stock = prodVenta.getProducto().getStock();
+			stock -= prodVenta.getCantidad();
+			prodVenta.getProducto().setStock(stock);
+			productoRepository.save(prodVenta.getProducto());
+		}
+		return venta;
 	}
 
 	@PutMapping("/venta")

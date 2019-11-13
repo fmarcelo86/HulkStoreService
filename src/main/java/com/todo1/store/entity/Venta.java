@@ -3,6 +3,7 @@ package com.todo1.store.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,7 +23,7 @@ public class Venta {
 	@OneToOne
 	@JoinColumn(name = "idUsuario", nullable = false, updatable = true)
 	private Usuario usuario;
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "idProductoVenta", nullable = false, updatable = true)
 	private List<ProductoVenta> productoVenta;
 	private Double valorTotal;
@@ -45,7 +46,13 @@ public class Venta {
 	}
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
-	}	
+	}
+	public List<ProductoVenta> getProductoVenta() {
+		return productoVenta;
+	}
+	public void setProductoVenta(List<ProductoVenta> productoVenta) {
+		this.productoVenta = productoVenta;
+	}
 	public Double getValorTotal() {
 		return valorTotal;
 	}
