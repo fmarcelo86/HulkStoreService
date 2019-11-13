@@ -50,8 +50,12 @@ public class VentaController {
 	@PostMapping("/venta")
 	public @ResponseBody Venta setVenta(@RequestBody Venta venta) {
 		log.info("Request: /setVenta " + venta);
-		venta.setCliente(clienteRepository.findById(1L).get());
-		venta.setUsuario(usuarioRepository.findById(1L).get());
+		if(venta.getCliente() == null || venta.getCliente().getId() == null) {
+			venta.setCliente(clienteRepository.findById(1L).get());
+		}
+		if(venta.getUsuario() == null || venta.getUsuario().getId() == null) {
+			venta.setUsuario(usuarioRepository.findById(1L).get());
+		}
 		venta.setFechaVenta(new Date());
 		venta = ventaRepository.save(venta);
 		for(ProductoVenta prodVenta : venta.getProductoVenta()) {
